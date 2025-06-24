@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { logger } from '../utils/logger';
+import { logger } from '../utils/logger.js';
 
 export interface ApiError {
   error: {
@@ -12,7 +12,7 @@ export interface ApiError {
 }
 
 export class ApiErrorHandler {
-  static handle(error: Error, req: Request, res: Response, next: NextFunction) {
+  static handle(error: Error, req: Request, res: Response, _next: NextFunction) {
     const requestId = req.headers['x-request-id'] as string || 'unknown';
     
     const response: ApiError = {

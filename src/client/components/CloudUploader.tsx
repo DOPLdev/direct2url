@@ -114,15 +114,18 @@ const CloudUploader: React.FC = () => {
     
     // Validate configuration based on provider
     if (cloudConfig.provider === 's3') {
-      if (!config?.bucket || !config?.accessKeyId || !config?.secretAccessKey) {
+      const s3Config = config as S3Config;
+      if (!s3Config?.bucket || !s3Config?.accessKeyId || !s3Config?.secretAccessKey) {
         throw new Error('S3 configuration required');
       }
     } else if (cloudConfig.provider === 'gcp') {
-      if (!config?.bucket || !config?.projectId || !config?.keyFile) {
+      const gcpConfig = config as GCPConfig;
+      if (!gcpConfig?.bucket || !gcpConfig?.projectId || !gcpConfig?.keyFile) {
         throw new Error('GCP configuration required');
       }
     } else if (cloudConfig.provider === 'azure') {
-      if (!config?.accountName || !config?.containerName || (!config?.accountKey && !config?.sasToken)) {
+      const azureConfig = config as AzureConfig;
+      if (!azureConfig?.accountName || !azureConfig?.containerName || (!azureConfig?.accountKey && !azureConfig?.sasToken)) {
         throw new Error('Azure configuration required');
       }
     }
@@ -328,11 +331,14 @@ const CloudUploader: React.FC = () => {
     const config = cloudConfig[cloudConfig.provider];
     
     if (cloudConfig.provider === 's3') {
-      return !!(config?.bucket && config?.accessKeyId && config?.secretAccessKey);
+      const s3Config = config as S3Config;
+      return !!(s3Config?.bucket && s3Config?.accessKeyId && s3Config?.secretAccessKey);
     } else if (cloudConfig.provider === 'gcp') {
-      return !!(config?.bucket && config?.projectId && config?.keyFile);
+      const gcpConfig = config as GCPConfig;
+      return !!(gcpConfig?.bucket && gcpConfig?.projectId && gcpConfig?.keyFile);
     } else if (cloudConfig.provider === 'azure') {
-      return !!(config?.accountName && config?.containerName && (config?.accountKey || config?.sasToken));
+      const azureConfig = config as AzureConfig;
+      return !!(azureConfig?.accountName && azureConfig?.containerName && (azureConfig?.accountKey || azureConfig?.sasToken));
     }
     
     return false;

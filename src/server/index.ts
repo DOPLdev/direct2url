@@ -4,13 +4,13 @@ import helmet from 'helmet';
 import compression from 'compression';
 import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
-import { logger } from './utils/logger';
-import { errorHandler } from './middleware/errorHandler';
-import { requestLogger } from './middleware/requestLogger';
-import { s3Routes } from './routes/s3';
-import { gcpRoutes } from './routes/gcp';
-import { azureRoutes } from './routes/azure';
-import { healthRoutes } from './routes/health';
+import { logger } from './utils/logger.js';
+import { errorHandler } from './middleware/errorHandler.js';
+import { requestLogger } from './middleware/requestLogger.js';
+import { s3Routes } from './routes/s3.js';
+import { gcpRoutes } from './routes/gcp.js';
+import { azureRoutes } from './routes/azure.js';
+import { healthRoutes } from './routes/health.js';
 
 // Load environment variables
 dotenv.config();
@@ -75,7 +75,7 @@ app.use('/api/azure-sas-url', azureRoutes);
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('dist/client'));
   
-  app.get('*', (req, res) => {
+  app.get('*', (_req, res) => {
     res.sendFile('dist/client/index.html', { root: '.' });
   });
 }
